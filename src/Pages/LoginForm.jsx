@@ -25,6 +25,7 @@ function LoginForm() {
     const enteredPassword = passwordInputRef.current.value;
     // const enterCnfmpassword = CnfmpasswordRef.current.value;
     console.log(enteredEmail, enteredPassword);
+    localStorage.setItem('email', enteredEmail);
 
     setIsLoading(true);
     let url;
