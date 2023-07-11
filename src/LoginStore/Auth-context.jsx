@@ -42,7 +42,7 @@ export const AuthContextProvider = (props) => {
     useEffect(() => {
         const tokenExpirationTimer = setTimeout(() => {
           logoutHandler();
-        }, 10000); // 5 minutes in milliseconds
+        }, 5 * 60 *1000); // 5 minutes in milliseconds
     
         return () => {
           clearTimeout(tokenExpirationTimer);

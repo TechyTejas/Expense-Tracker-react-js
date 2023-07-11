@@ -1,0 +1,26 @@
+.navbar{
+   
+        display: flex;
+        justify-content: space-between;
+        list-style-type: none;
+        position: fixed;
+        background: rgb(119, 189, 236);
+        width: 100%;
+
+}
+
+.headerdiv{
+    text-decoration: none;
+    display: flex;   
+    background-color: #ffcccc;
+    border-radius: 10px;
+    /* margin-right: 60px; */
+   
+  }
+
+.link{
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+    padding-left: 10px;
+}
