@@ -19,9 +19,10 @@ export const AuthContextProvider = (props) => {
     //iif token is string wiht empty this will return false
 
     const loginHandler = (token) => {
+      // console.log(token)
        setToken(token)
        localStorage.setItem('token', token);
-       console.log(token)
+      //  console.log(token)
     }
 
     const logoutHandler = () => {
@@ -41,7 +42,7 @@ export const AuthContextProvider = (props) => {
     useEffect(() => {
         const tokenExpirationTimer = setTimeout(() => {
           logoutHandler();
-        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+        }, 10000); // 5 minutes in milliseconds
     
         return () => {
           clearTimeout(tokenExpirationTimer);

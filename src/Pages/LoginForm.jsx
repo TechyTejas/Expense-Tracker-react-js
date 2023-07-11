@@ -1,16 +1,22 @@
 import { useRef , useState ,useContext} from "react"
 import classes from './LoginForm.module.css'
 import AuthContext from "../LoginStore/Auth-context";
+import {  useNavigate } from "react-router-dom";
+
 
 function LoginForm() {
+    const navigate=useNavigate();
+
     const authCtx=useContext(AuthContext)
+
     const passwordInputRef=useRef();
     const emailInputRef=useRef();
+    const CnfmpasswordRef=useRef();
 
     const [isLogin, setIsLogin] = useState(true);
     const[isLoading,setIsLoading]= useState(false);
   
-    const switchAuthModeHandler = (vent) => {
+    const switchAuthModeHandler = () => {
       setIsLogin((prevState) => !prevState);
     };
   
@@ -19,6 +25,7 @@ function LoginForm() {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
+        // const enterCnfmpassword = CnfmpasswordRef.current.value;
          console.log(enteredEmail, enteredPassword);
 
          setIsLoading(true)
@@ -60,8 +67,9 @@ function LoginForm() {
          })
          .then((data) => {
            authCtx.login(data.idToken)  //here we passing that token which we getting from firbase
-           // console.log(data)
-        //    navigate('/home');
+          //  console.log(data.idToken + " tejass ")
+            // console.log(data)
+           navigate('/home');
         console.log("login successfulyy")
          })
          .catch((err) => {
@@ -89,6 +97,15 @@ function LoginForm() {
             ref={passwordInputRef}
             required
           />
+         {!isLogin && <div className={classes.control}>
+            <label htmlFor="password">Confirm Password</label>
+            <input
+            type='password'
+            id='password'
+            ref={CnfmpasswordRef}
+            required
+            />
+          </div>}
         </div>
         <div className={classes.actions}>
         {!isLoading && <button >{isLogin ? "Login" : "Create Account"}</button>}
