@@ -17,6 +17,7 @@ function Home() {
   }
 
   return (
+    <>
    <div>
       <ui  className={classes.navbar}>
         
@@ -27,12 +28,13 @@ function Home() {
         <li> <h4>Your Profile is incomplete</h4> </li>
         <li className={classes.link} onClick={nextPageHandler}> <h4>Complete now</h4></li>
         </div>
-
-        
         </ui>
+      </div>
+      
         <br/><br/>
         <LoggedIn/>
-    </div>
+        </>
+    
     
 
   )

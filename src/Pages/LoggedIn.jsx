@@ -37,6 +37,7 @@ function LoggedIn() {
   }
   const changeHandler = () => {
       navigate('/submitdetails')
+      navigate('/mainpage')
   }
 
   return (
@@ -49,6 +50,7 @@ function LoggedIn() {
       ) : (
         <h2>Email is not verified</h2>
       )}
+      <button onClick={changeHandler}>Go to Tracker</button>
     </div>
   );
 }
