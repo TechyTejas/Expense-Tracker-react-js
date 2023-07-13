@@ -2,56 +2,94 @@ import React, { useEffect, useRef, useState } from "react";
 
 function MainPage() {
   const [details, setDetails] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState(null);
 
   const amountRef = useRef();
   const descRef = useRef();
   const categoryRef = useRef();
 
-
   async function submitHandler(event) {
     event.preventDefault();
-    const amount = amountRef.current.value;
-    const desc = descRef.current.value;
-    const category = categoryRef.current.value;
+    if (edit) {
+      const amount = amountRef.current.value;
+      const desc = descRef.current.value;
+      const category = categoryRef.current.value;
 
-    const newItem = {
-      amount: amount,
-      desc: desc,
-      category: category,
-    };
+      const updatedDetails = {
+        amount: amount,
+        desc: desc,
+        category: category,
+      };
 
-    // In Firebase Realtime Database, the .json appended to the URL path indicates the RESTful API endpoint for accessing and manipulating
-    // JSON data in the database. When you include .json in the URL, it instructs Firebase to interpret the data as JSON format.
-
-    fetch(
-      "https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense.json",
-      {
-        method: "POST",
-        body: JSON.stringify(newItem),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    //here we going to check weather the response is getting correctly or not
-      .then((response) => {
-        if (response.ok) {
-          console.log("data have been saved successfully!");
+      fetch(
+        `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense/${id}.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify(updatedDetails),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
-      .catch((error) => {
-        console.log("This error we are getting here:", error);
-        alert(error);
-      });
+      )
+        .then((response) => {
+          if (response.ok) {
+            console.log("Expense data edited successfully!");
+            fetchItems();
+            setEdit(false);
+            setId(null);
+          }
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
 
-   
-    amountRef.current.value = "";
-    descRef.current.value = "";
-    categoryRef.current.value = "";
+      amountRef.current.value = "";
+      descRef.current.value = "";
+      categoryRef.current.value = "";
+    } else {
+      const amount = amountRef.current.value;
+      const desc = descRef.current.value;
+      const category = categoryRef.current.value;
+
+      const newItem = {
+        amount: amount,
+        desc: desc,
+        category: category,
+      };
+
+      // In Firebase Realtime Database, the .json appended to the URL path indicates the RESTful API endpoint for accessing and manipulating
+      // JSON data in the database. When you include .json in the URL, it instructs Firebase to interpret the data as JSON format.
+
+      fetch(
+        "https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense.json",
+        {
+          method: "POST",
+          body: JSON.stringify(newItem),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        //here we going to check weather the response is getting correctly or not
+        .then((response) => {
+          if (response.ok) {
+            console.log("data have been saved successfully!");
+          }
+        })
+        .catch((error) => {
+          console.log("This error we are getting here:", error);
+          alert(error);
+        });
+
+      amountRef.current.value = "";
+      descRef.current.value = "";
+      categoryRef.current.value = "";
+    }
   }
 
   async function fetchItems() {
-    // Fetch expenses data from Firebase Realtime Database
+    // Fetching entered data from Firebase Realtime Database
     fetch(
       "https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense.json"
     )
@@ -75,11 +113,39 @@ function MainPage() {
           });
         }
         setDetails(FetchDetails);
-        console.log(FetchDetails[0].desc + "here we are getting desc back");
+        console.log(FetchDetails[0].id + "here we are getting desc back");
       })
       .catch((error) => {
         console.log("Error occurred while fetching expenses data:", error);
       });
+  }
+
+  async function deleteExpense(id) {
+    // when data is passing to that li id is also passing (just look upper code) so we are getting that id from there
+    // just have to pass that id to delete function and we can achieve it
+    fetch(
+      `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense/${id}.json`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          console.log("Expense data deleted successfully!");
+          fetchItems(); // Fetch the updated data after deleting an item
+        }
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  }
+
+  async function editExpense(id, descri, category, amount) {
+    setId(id);
+    setEdit(true);
+    amountRef.current.value = amount;
+    descRef.current.value = descri;
+    categoryRef.current.value = category;
   }
 
   useEffect(() => {
@@ -105,14 +171,21 @@ function MainPage() {
           <option>Food</option>
         </select>
         <br />
-        <button>Submit</button>
+        {edit ? <button>Update</button> : <button>Submit</button>}
       </form>
       <ul>
         {details.map((item, index) => (
           <li key={index}>
             Amount: {item.amount}, Description: {item.desc}, Category:{" "}
             {item.category}
-            <button>delete</button>
+            <button onClick={() => deleteExpense(item.id)}>delete</button>
+            <button
+              onClick={() =>
+                editExpense(item.id, item.desc, item.category, item.amount)
+              }
+            >
+              Edit
+            </button>
           </li>
         ))}
       </ul>

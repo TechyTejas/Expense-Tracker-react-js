@@ -43,7 +43,7 @@ function LoggedIn() {
   return (
     <div>
       <h2>Login successfully</h2>
-      <button onClick={changeHandler} >Update</button>
+      <button onClick={changeHandler} >to go tracker</button>
       <button onClick={verifyHandler}>Verify</button>
       {emailIsVerified ? (
         <h2>Email is verified</h2>
