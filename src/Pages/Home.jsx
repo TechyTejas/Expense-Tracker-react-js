@@ -33,6 +33,11 @@ function Home() {
       clearTimeout(logoutTimeout);
     };
   }, []);
+
+  function themeChangeHandler () {
+      dispatch(authActions.isToggle())   
+  } 
+
   
 
   return (
@@ -43,6 +48,7 @@ function Home() {
         <h3> Welcome to expense tracker</h3>
 
         <div className={classes.headerdiv}>
+          <li><button onClick={themeChangeHandler}>Dark</button></li>
           <li><button onClick={logoutHandler}>Logout</button></li>
         <li> <h4>Your Profile is incomplete</h4> </li>
         <li className={classes.link} onClick={nextPageHandler}> <h4>Complete now</h4></li>

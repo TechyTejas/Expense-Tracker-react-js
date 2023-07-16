@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialAuthState={
-    isAuthenticated : false
+    isAuthenticated : false,
+    darkToggle : false,
 }
 
 const authSlice= createSlice({
@@ -16,6 +17,9 @@ const authSlice= createSlice({
             state.isAuthenticated=false;
             localStorage.removeItem("token")
             localStorage.removeItem("email")
+        },
+        isToggle(state){
+            state.darkToggle=true
         }
     }
 })

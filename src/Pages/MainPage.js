@@ -1,19 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-// import { useSelector } from "react-redux/es/hooks/useSelector";
-// import { authActions } from "../LoginStore/auth-reducer";
-// import { useDispatch } from "react-redux";
+
 
 function MainPage() {
-  // const dispatch=useDispatch();
-  // const isLoggedin=useSelector(state=>state.auth.isAuthenticated);
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     dispatch(authActions.isLogin(token));
-  //   } 
-  // }, []);
-
 
   const [details, setDetails] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -162,7 +150,23 @@ function MainPage() {
     descRef.current.value = descri;
     categoryRef.current.value = category;
   }
+   
+  function downloadExpensesAsTxt () {
+    const data = details.map((expense)=>{
+      return `Amount :${expense.amount}   Description :${expense.desc}    Category :${expense.category}`
+    })
 
+    const text= data.join("\n");
+    const blob= new Blob([text],{type : "text/plain"})
+    const url= URL.createObjectURL(blob)
+
+    const link=document.createElement("a")
+    link.href=url;
+    link.download="expenses.txt"
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
   useEffect(() => {
     fetchItems();
     //if we add fetchItems function in submit hadnler so the data will automatically get added to ui no need to do refresh
@@ -187,12 +191,12 @@ function MainPage() {
         </select>
         <br />
         {edit ? <button>Update</button> : <button>Submit</button>}
+        <button onClick={downloadExpensesAsTxt} >DownLoad File</button>
       </form>
       <ul>
         {details.map((item, index) => (
           <li key={index}>
-            Amount: {item.amount}, Description: {item.desc}, Category:{" "}
-            {item.category}
+            Amount: {item.amount}, Description: {item.desc}, Category: {item.category}
             <button onClick={() => deleteExpense(item.id)}>delete</button>
             <button
               onClick={() =>
