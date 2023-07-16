@@ -1,20 +1,39 @@
 import React from 'react'
 import classes from './Home.module.css'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 import LoggedIn from './LoggedIn';
-import AuthContext from '../LoginStore/Auth-context';
-import { useContext } from 'react';
+// import AuthContext from '../LoginStore/Auth-context';
+// import { useContext } from 'react';
+import { authActions } from '../LoginStore/auth-reducer';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useDispatch } from 'react-redux';
 
 function Home() {
-  const authCtx= useContext(AuthContext);
+  // const authCtx= useContext(AuthContext);
+  const dispatch=useDispatch();
+  useSelector(state=>state.auth.isAuthenticated)
+
   const navigate=useNavigate();
   const nextPageHandler = (event) => {
     navigate('/submitdetails')
   }
 
   const logoutHandler = () => {
-     authCtx.logout();
+    //  authCtx.logout();
+    dispatch(authActions.isLogout())
   }
+  
+  useEffect(() => {
+    const logoutTimeout = setTimeout(() => {
+      logoutHandler();
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+  
+    return () => {
+      clearTimeout(logoutTimeout);
+    };
+  }, []);
+  
 
   return (
     <>

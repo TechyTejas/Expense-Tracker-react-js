@@ -1,6 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
+// import { useSelector } from "react-redux/es/hooks/useSelector";
+// import { authActions } from "../LoginStore/auth-reducer";
+// import { useDispatch } from "react-redux";
 
 function MainPage() {
+  // const dispatch=useDispatch();
+  // const isLoggedin=useSelector(state=>state.auth.isAuthenticated);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     dispatch(authActions.isLogin(token));
+  //   } 
+  // }, []);
+
+
   const [details, setDetails] = useState([]);
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState(null);
@@ -76,6 +90,7 @@ function MainPage() {
           if (response.ok) {
             console.log("data have been saved successfully!");
           }
+          fetchItems();
         })
         .catch((error) => {
           console.log("This error we are getting here:", error);

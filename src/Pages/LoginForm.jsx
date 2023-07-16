@@ -1,12 +1,19 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState} from "react";
 import classes from "./LoginForm.module.css";
-import AuthContext from "../LoginStore/Auth-context";
+// import AuthContext from "../LoginStore/Auth-context";
 import { useNavigate } from "react-router-dom";
+import { authActions } from "../LoginStore/auth-reducer";
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useDispatch } from 'react-redux';
+import { useEffect } from "react";
 
 function LoginForm() {
   const navigate = useNavigate();
 
-  const authCtx = useContext(AuthContext);
+  const dispatch=useDispatch()
+  const isLoggedin=useSelector(state=>state.auth.isAuthenticated);
+
+  // const authCtx = useContext(AuthContext);
 
   const passwordInputRef = useRef();
   const emailInputRef = useRef();
@@ -67,9 +74,11 @@ function LoginForm() {
         }
       })
       .then((data) => {
-        authCtx.login(data.idToken); //here we passing that token which we getting from firbase
+        // authCtx.login(data.idToken); //here we passing that token which we getting from firbase
+        dispatch(authActions.isLogin(data.idToken))
         //  console.log(data.idToken + " tejass ")
         // console.log(data)
+        console.log(isLoggedin)
         navigate("/home");
         console.log("login successfulyy");
       })
@@ -84,6 +93,14 @@ function LoginForm() {
   const forgotPassHandler = () => {
     navigate('/forgotpass');
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(authActions.isLogin(token));
+    } 
+  }, []);
+  
 
   return (
     <section className={classes.auth}>
