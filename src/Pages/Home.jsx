@@ -3,14 +3,15 @@ import classes from './Home.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
 import LoggedIn from './LoggedIn';
-// import AuthContext from '../LoginStore/Auth-context';
-// import { useContext } from 'react';
 import { authActions } from '../LoginStore/auth-reducer';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux';
 
+
 function Home() {
-  // const authCtx= useContext(AuthContext);
+  const isPremium=useSelector(state=>state.auth.ispremium);
+  
+
   const dispatch=useDispatch();
   useSelector(state=>state.auth.isAuthenticated)
 
@@ -48,6 +49,7 @@ function Home() {
         <h3> Welcome to expense tracker</h3>
 
         <div className={classes.headerdiv}>
+          {isPremium && <li><buttton>Primeee</buttton></li>}
           <li><button onClick={themeChangeHandler}>Dark</button></li>
           <li><button onClick={logoutHandler}>Logout</button></li>
         <li> <h4>Your Profile is incomplete</h4> </li>

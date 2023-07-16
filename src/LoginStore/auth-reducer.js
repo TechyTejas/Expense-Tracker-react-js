@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialAuthState={
     isAuthenticated : false,
     darkToggle : false,
+    ispremium : false
 }
 
 const authSlice= createSlice({
@@ -20,6 +21,13 @@ const authSlice= createSlice({
         },
         isToggle(state){
             state.darkToggle=true
+        },
+        ispremium(state , action){
+            if(action.payload>10000){
+                state.ispremium=true
+            }else{
+                state.ispremium=false
+            }
         }
     }
 })

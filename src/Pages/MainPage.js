@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { authActions } from "../LoginStore/auth-reducer";
+import { useDispatch } from "react-redux";
 
 
 function MainPage() {
+  const dispatch=useDispatch();
 
   const [details, setDetails] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -167,6 +170,15 @@ function MainPage() {
 
     URL.revokeObjectURL(url);
   }
+
+  const sum = details.reduce(
+    (total, expense) => total + parseInt(expense.amount),
+    0
+  );
+  if(sum){
+    dispatch(authActions.ispremium(sum))
+  }
+
   useEffect(() => {
     fetchItems();
     //if we add fetchItems function in submit hadnler so the data will automatically get added to ui no need to do refresh
@@ -191,7 +203,9 @@ function MainPage() {
         </select>
         <br />
         {edit ? <button>Update</button> : <button>Submit</button>}
-        <button onClick={downloadExpensesAsTxt} >DownLoad File</button>
+        <span>Total amount:{sum}</span>
+        <br/>
+        <button onClick={downloadExpensesAsTxt}>DownLoad File</button>
       </form>
       <ul>
         {details.map((item, index) => (
