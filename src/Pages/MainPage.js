@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { authActions } from "../LoginStore/auth-reducer";
-import { useDispatch } from "react-redux";
+import { useDispatch  } from "react-redux";
+import classes from './mainpage.module.css'
 
 
 function MainPage() {
@@ -13,6 +14,10 @@ function MainPage() {
   const amountRef = useRef();
   const descRef = useRef();
   const categoryRef = useRef();
+
+  //in order to make cart user specific data sshould be post by the emailid which we can get from localst
+  const enteredEmail=localStorage.getItem('email');
+  const updatedEmail = enteredEmail ? enteredEmail.replace('@', '').replace('.', '') : '';
 
   async function submitHandler(event) {
     event.preventDefault();
@@ -28,7 +33,7 @@ function MainPage() {
       };
 
       fetch(
-        `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense/${id}.json`,
+        `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/${updatedEmail}/${id}.json`,
         {
           method: "PUT",
           body: JSON.stringify(updatedDetails),
@@ -67,7 +72,7 @@ function MainPage() {
       // JSON data in the database. When you include .json in the URL, it instructs Firebase to interpret the data as JSON format.
 
       fetch(
-        "https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense.json",
+        `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/${updatedEmail}.json`,
         {
           method: "POST",
           body: JSON.stringify(newItem),
@@ -97,7 +102,7 @@ function MainPage() {
   async function fetchItems() {
     // Fetching entered data from Firebase Realtime Database
     fetch(
-      "https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense.json"
+      `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/${updatedEmail}.json`
     )
       .then((response) => {
         if (response.ok) {
@@ -130,7 +135,7 @@ function MainPage() {
     // when data is passing to that li id is also passing (just look upper code) so we are getting that id from there
     // just have to pass that id to delete function and we can achieve it
     fetch(
-      `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/Expense/${id}.json`,
+      `https://expense-tracker-be3e3-default-rtdb.firebaseio.com/${updatedEmail}/${id}.json`,
       {
         method: "DELETE",
       }
@@ -154,6 +159,8 @@ function MainPage() {
     categoryRef.current.value = category;
   }
    
+
+  // function to download the file
   function downloadExpensesAsTxt () {
     const data = details.map((expense)=>{
       return `Amount :${expense.amount}   Description :${expense.desc}    Category :${expense.category}`
@@ -183,18 +190,23 @@ function MainPage() {
     fetchItems();
     //if we add fetchItems function in submit hadnler so the data will automatically get added to ui no need to do refresh
   }, []);
+  
+
+// const isDarkMode = useSelector(state=>state.auth.isDarkToggle)
+
+
 
   return (
-    <div>
-      <h2>This is real Tracker</h2>
-      <form onSubmit={submitHandler}>
-        <label>Enter amount</label>
-        <input type="number" ref={amountRef} />
+    <div className={classes.div}>
+    <h2>This is real Tracker</h2>
+      <form onSubmit={submitHandler} className={classes.formm}>
+        <label className={classes.labell}>Enter amount</label>
+        <input type="number" ref={amountRef} className={classes.inputt}/>
         <br />
-        <label>Enter description</label>
-        <input ref={descRef} />
+        <label className={classes.labell}>Enter description</label>
+        <input ref={descRef}className={classes.inputt} />
         <br />
-        <label>Select category</label>
+        <label className={classes.labell}>Select category</label>
         <select ref={categoryRef}>
           <option>Select Category</option>
           <option>Electronics</option>
@@ -202,26 +214,29 @@ function MainPage() {
           <option>Food</option>
         </select>
         <br />
-        {edit ? <button>Update</button> : <button>Submit</button>}
+        {edit ? <button className={classes.buttonn} >Update</button> : <button className={classes.buttonn} >Submit</button>}
         <span>Total amount:{sum}</span>
         <br/>
-        <button onClick={downloadExpensesAsTxt}>DownLoad File</button>
+        <button onClick={downloadExpensesAsTxt} className={classes.buttonn}>DownLoad File</button>
       </form>
-      <ul>
+
+      <ul className={classes.ul}>
         {details.map((item, index) => (
           <li key={index}>
             Amount: {item.amount}, Description: {item.desc}, Category: {item.category}
-            <button onClick={() => deleteExpense(item.id)}>delete</button>
+            <button onClick={() => deleteExpense(item.id)} className={classes.buttonn}>delete</button>
             <button
               onClick={() =>
-                editExpense(item.id, item.desc, item.category, item.amount)
+                editExpense(item.id, item.desc, item.category, item.amount)  
               }
+              className={classes.buttonn}
             >
               Edit
             </button>
           </li>
         ))}
       </ul>
+
     </div>
   );
 }

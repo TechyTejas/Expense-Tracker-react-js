@@ -6,9 +6,8 @@
   }
   
 .formm {
-    border: 1px solid #110f0f;
-    margin-bottom: 149px;
     padding: 2rem;
+    border: 1px solid #110f0f;
     border-radius: 10px;
     background-color: #f8f8f8;
   }
@@ -37,5 +36,15 @@
 .buttonn:hover {
     background-color: #5de2af; /* Different color on hover */
   }
+
+.ul{
+    border: 1px solid #110f0f;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    padding-top : 5px;
+    
+    
+    
+}
   
   

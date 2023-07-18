@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialAuthState={
     isAuthenticated : false,
-    darkToggle : false,
-    ispremium : false
+    ispremium : false,
+    isDarkToggle : false
 }
 
 const authSlice= createSlice({
@@ -19,17 +19,18 @@ const authSlice= createSlice({
             localStorage.removeItem("token")
             localStorage.removeItem("email")
         },
-        isToggle(state){
-            state.darkToggle=true
-        },
         ispremium(state , action){
             if(action.payload>10000){
                 state.ispremium=true
             }else{
                 state.ispremium=false
             }
+        },
+        isDarkToggle(state,action){
+            state.isDarkToggle=!state.isDarkToggle
         }
     }
+
 })
 
 export const authActions=authSlice.actions;

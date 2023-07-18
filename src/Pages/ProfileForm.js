@@ -78,23 +78,25 @@ function ProfileForm() {
   }, []);
 
   const changeHandler = () => {
-    navigate('/home')
+    navigate('/loggedin')
   }
 
   return (
-    <div>
+    <div className={classes.div}>
       <h2>Winners never quit, quitters never win</h2>
-      <form onSubmit={submitHandler} className={classes.para}>
-        <label>Contact Details</label>
-        <button onClick={changeHandler}>Cancle</button>
+      <form onSubmit={submitHandler} className={classes.formm}>
+        <label className={classes.labell}>Contact Details</label>
+        
         <br />
 
-        <label>Full Name</label>
+        <label className={classes.labell}>Full Name</label>
         <input ref={nameRef}></input>
-        <label>Image URL</label>
+        <label className={classes.labell}>Image URL</label>
         <input ref={UrlRef}></input>
         <br />
-        <button>Submit</button>
+        <button className={classes.buttonn}>Submit</button>
+        <br/>
+        <button onClick={changeHandler} className={classes.buttonn}>Previous</button>
       </form>
     </div>
   );

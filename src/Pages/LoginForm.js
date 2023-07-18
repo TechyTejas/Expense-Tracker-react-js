@@ -78,9 +78,9 @@ function LoginForm() {
         dispatch(authActions.isLogin(data.idToken))
         //  console.log(data.idToken + " tejass ")
         // console.log(data)
-        console.log(isLoggedin)
-        navigate("/home");
-        console.log("login successfulyy");
+       
+        navigate("/loggedin");
+        
       })
       .catch((err) => {
         alert(err.message);

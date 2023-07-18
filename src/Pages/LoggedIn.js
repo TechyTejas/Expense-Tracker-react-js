@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Profile from "./Profile";
+import classes from "./Loggin.module.css";
 
 function LoggedIn() {
-    const navigate=useNavigate();
+  const navigate = useNavigate();
   const [emailIsVerified, setEmailIsVerified] = useState(false);
   async function verifyHandler() {
     const email = localStorage.getItem("email");
     const token = localStorage.getItem("token");
 
-    console.log(email +"and "+ token)
+    console.log(email + "and " + token);
 
     const data = {
       requestType: "VERIFY_EMAIL",
@@ -27,7 +29,7 @@ function LoggedIn() {
         }
       );
       const responseData = await response.json();
-      console.log( responseData + "Verification email sent here");
+      console.log(responseData + "Verification email sent here");
       if (responseData.email === email) {
         setEmailIsVerified(true);
       }
@@ -36,21 +38,44 @@ function LoggedIn() {
     }
   }
   const changeHandler = () => {
-      navigate('/submitdetails')
-      navigate('/mainpage')
-  }
+    navigate("/submitdetails");
+    navigate("/mainpage");
+  };
 
   return (
-    <div>
-      <h2>Login successfully</h2>
-      <button onClick={changeHandler} >to go tracker</button>
-      <button onClick={verifyHandler}>Verify</button>
-      {emailIsVerified ? (
-        <h2>Email is verified</h2>
-      ) : (
-        <h2>Email is not verified</h2>
-      )}
-      <button onClick={changeHandler}>Go to Tracker</button>
+    <div className={classes.container}>
+      <div>
+        <h1>Login successfully</h1>
+      </div>
+
+      <div className={classes.card}>
+        <Profile />
+      </div>
+
+      <div className={classes.card}>
+        <h2>Visit Expense Tracker</h2>
+        <br/>
+        <button onClick={changeHandler} className={classes.button}>
+         tracker
+        </button>
+      </div>
+
+      <div className={classes.card}>
+        <h2>Verify your EmailId</h2>
+        <br/>
+     
+        <button onClick={verifyHandler} className={classes.button}>
+          Verify
+        </button>
+      </div>
+
+      <div className={classes.card}>
+        {emailIsVerified ? (
+          <h2 style={{ color: "green" }}>Email is verified</h2>
+        ) : (
+          <h2 style={{ color: "red" }}>Email is not verified</h2>
+        )}
+      </div>
     </div>
   );
 }
