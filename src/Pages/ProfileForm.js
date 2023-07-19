@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./ProfileForm.module.css";
+import { authActions } from "../LoginStore/auth-reducer";
+import { useDispatch } from "react-redux";
 
 function ProfileForm() {
+    const dispatch=useDispatch();
     const navigate=useNavigate();
   const nameRef = useRef();
   const UrlRef = useRef();
@@ -74,11 +77,14 @@ function ProfileForm() {
   }
 
   useEffect(() => {
+      //if we add fetchItems function in submit hadnler so the data will automatically get added to ui no need to do refresh
+      const token=localStorage.getItem("token")
+      dispatch(authActions.isLogin(token))    
     fetchData();
   }, []);
 
   const changeHandler = () => {
-    navigate('/loggedin')
+    navigate('/')
   }
 
   return (

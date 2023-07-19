@@ -99,6 +99,8 @@ function MainPage() {
     }
   }
 
+
+
   async function fetchItems() {
     // Fetching entered data from Firebase Realtime Database
     fetch(
@@ -186,15 +188,19 @@ function MainPage() {
     dispatch(authActions.ispremium(sum))
   }
 
+  const token = localStorage.getItem("token");
+  console.log(token + " hi itejas token in oaimpage")
+  
   useEffect(() => {
     fetchItems();
     //if we add fetchItems function in submit hadnler so the data will automatically get added to ui no need to do refresh
+    dispatch(authActions.isLogin(token))
   }, []);
+  
+ 
   
 
 // const isDarkMode = useSelector(state=>state.auth.isDarkToggle)
-
-
 
   return (
     <div className={classes.div}>

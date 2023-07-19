@@ -1,3 +1,4 @@
+import Footer from "./Layouts.js/Footer";
 import Home from "./Pages/Home";
 // import Route from "../Routes/Route";
 import Route from './Routes/Route'
@@ -13,6 +14,7 @@ function App() {
     <div >
     <Home/>
     <Route/>
+    <Footer/>
     </div>
   );
 

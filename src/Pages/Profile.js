@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 function Profile() {
     const navigate=useNavigate();
     const nextPageHandler = (event) => {
-      navigate('/submitdetails')
+      navigate('/UserDetails')
     }
   
   return (

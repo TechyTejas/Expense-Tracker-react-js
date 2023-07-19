@@ -1,17 +1,16 @@
 import { useRef, useState} from "react";
 import classes from "./LoginForm.module.css";
-// import AuthContext from "../LoginStore/Auth-context";
 import { useNavigate } from "react-router-dom";
 import { authActions } from "../LoginStore/auth-reducer";
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux';
-import { useEffect } from "react";
+ 
 
 function LoginForm() {
   const navigate = useNavigate();
 
   const dispatch=useDispatch()
-  const isLoggedin=useSelector(state=>state.auth.isAuthenticated);
+   useSelector(state=>state.auth.isAuthenticated);
 
   // const authCtx = useContext(AuthContext);
 
@@ -63,12 +62,6 @@ function LoginForm() {
           //The response holds error
           return response.json().then((data) => {
             let errorMessage = "Authentication failed!";
-
-            //if(data && data.error && data.error.message){
-            //   errorMessage=data.error.message;
-            // }
-            // alert(errorMessage)
-            // console.log(data);
             throw new Error(errorMessage);
           });
         }
@@ -76,10 +69,7 @@ function LoginForm() {
       .then((data) => {
         // authCtx.login(data.idToken); //here we passing that token which we getting from firbase
         dispatch(authActions.isLogin(data.idToken))
-        //  console.log(data.idToken + " tejass ")
-        // console.log(data)
-       
-        navigate("/loggedin");
+        navigate("/");
         
       })
       .catch((err) => {
@@ -94,12 +84,12 @@ function LoginForm() {
     navigate('/forgotpass');
   }
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(authActions.isLogin(token));
-    } 
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     dispatch(authActions.isLogin(token));
+  //   } 
+  // }, []);
   
 
   return (

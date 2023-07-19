@@ -4,9 +4,12 @@ import { useEffect } from "react";
 import { authActions } from "../LoginStore/auth-reducer";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 
 function Home() {
+  const navigate=useNavigate();
   const dispatch = useDispatch();
 
   const isPremium = useSelector((state) => state.auth.ispremium);
@@ -18,6 +21,7 @@ function Home() {
 
   const logoutHandler = () => {
     dispatch(authActions.isLogout());
+    navigate("/login")
   };
 
   useEffect(() => {
@@ -39,9 +43,7 @@ function Home() {
 
         <div className={classes.headerdiv}>
           {isPremium && (
-            <li>
-              <buttton className={classes.buttonn}>Primeee</buttton>
-            </li>
+              <buttton className={classes.buttonn}>Primeee</buttton> 
           )}
          { Islogin  && <button onClick={logoutHandler} className={classes.buttonn}>
             Logout
@@ -50,7 +52,7 @@ function Home() {
       </ui>
       <br />
       <br />
-     
+    
     </div>
   );
 }

@@ -19,18 +19,14 @@ function Routee() {
     
   return (
     <Routes>
-       <Route path="/loggedin" element={isLoggedIn ? (<LoggedIn />) : 
-          (<Navigate to="/login" replace />)}/>
-       <Route path="/" element={isLoggedIn ? (<Home />) : 
+      
+       <Route path="/" element={isLoggedIn ? (<LoggedIn />) : 
           (<Navigate to="/login" replace />)}/>
 
-   <Route path="/" element={<Home/>}></Route>
-   <Route path='/login' element={<LoginForm/>}></Route>
-   <Route path="/mainpage" element={isLoggedIn ? (<MainPage/>) :
-  (<Navigate to="/" replace />)}></Route>
-
-   <Route path='/submitdetails' element={<ProfileForm/>}></Route>
-   <Route path="/forgotpass" element = {<ForgotPass/>}></Route>
+  <Route path="/mainpage" element={<MainPage/>}></Route>
+  <Route path='/UserDetails' element={<ProfileForm/>}></Route>
+  <Route path='/login' element={<LoginForm/>}></Route>
+  <Route path="/forgotpass" element = {<ForgotPass/>}></Route>
                   
     </Routes>
   )

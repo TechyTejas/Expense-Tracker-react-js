@@ -2,8 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import classes from "./Loggin.module.css";
+import { useEffect } from "react";
+import { authActions } from "../LoginStore/auth-reducer";
+import { useDispatch } from "react-redux";
 
 function LoggedIn() {
+  //  useSelector((state) => state.auth.isAuthenticated)
+  const dispatch = useDispatch();
+
+ 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    dispatch(authActions.isLogin(token));
+  }, []);
+
   const navigate = useNavigate();
   const [emailIsVerified, setEmailIsVerified] = useState(false);
   async function verifyHandler() {
@@ -38,9 +50,10 @@ function LoggedIn() {
     }
   }
   const changeHandler = () => {
-    navigate("/submitdetails");
     navigate("/mainpage");
   };
+
+
 
   return (
     <div className={classes.container}>
@@ -54,16 +67,16 @@ function LoggedIn() {
 
       <div className={classes.card}>
         <h2>Visit Expense Tracker</h2>
-        <br/>
+        <br />
         <button onClick={changeHandler} className={classes.button}>
-         tracker
+          tracker
         </button>
       </div>
 
       <div className={classes.card}>
         <h2>Verify your EmailId</h2>
-        <br/>
-     
+        <br />
+
         <button onClick={verifyHandler} className={classes.button}>
           Verify
         </button>

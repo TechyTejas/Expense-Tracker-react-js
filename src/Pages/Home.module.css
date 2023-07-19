@@ -11,13 +11,12 @@
   text-decoration: none;
   display: flex;
  
- 
-  /* margin-right: 60px; */
 }
 .buttonn {
   background-color: #ff6347; /* Eye-catching color */
   color: white;
   border: none;
+  margin-right: 50px;
 }
 
 .buttonn:hover {

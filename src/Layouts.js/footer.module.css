@@ -1,0 +1,43 @@
+
+.footer{
+    display: flex;
+    /* margin-top: 40px; */
+    padding: 20px;
+    background: #56CCF2;
+  }
+  
+  .footer2{
+    text-align: center;
+    color: white;
+    width: 50%;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0 auto;
+  }
+  
+  .footericons{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .footerIconsUL{
+    list-style-type: none;
+    display: flex;
+  }
+  
+  .footerIconsLI{
+    padding: 10px;
+    margin: 0px 20px;
+  }
+  
+  .achor{
+    box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+  }
+  
+  .imgg{
+    width: 30px;
+  }
